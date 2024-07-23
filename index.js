@@ -5,7 +5,6 @@ import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
 import { epoxyPath } from "@mercuryworkshop/epoxy-transport";
 import { baremuxPath } from "@mercuryworkshop/bare-mux/node";
 import wisp from "wisp-server-node";
-import request from "@cypress/request";
 
 
 const __dirname = path.resolve();
@@ -20,17 +19,6 @@ app.use(express.static(path.join(__dirname, "static")));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "./static/index.html"));
-});
-
-app.get("/assets/img/:imageName", (req, res) => {
-  const imageUrl = `https://beta.derpman.lol/assets/img/${req.params.imageName}`;
-
-  request(imageUrl)
-    .on('error', err => {
-      console.error('Error fetching image:', err);
-      res.status(500).send('Error fetching image');
-    })
-    .pipe(res);
 });
 
 app.use((req, res) => {
