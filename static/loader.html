@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/assets/css/loader.css">
+    <script>
+        window.onload = function () {
+          let encodedUrl = localStorage.getItem("encodedUrl");
+          encodedUrl = "/service/" + encodedUrl;
+          document.querySelector("#siteurl").src = encodedUrl;
+        }
+    </script>
+    <script src="/assets/js/theme.js"></script>
+    <title>Loader | Modal</title>
+</head>
+<body>
+    <div id="urlBar">
+        <button class="btn btn-sm btn-ghost btn-circle" onclick="back()"><i data-lucide="chevron-left"></i></button>
+        <button class="btn btn-sm btn-ghost btn-circle" onclick="forward()"><i data-lucide="chevron-right"></i></button>
+        <button class="btn btn-sm btn-ghost btn-circle" onclick="reload()"><i data-lucide="rotate-cw" style="width:19px;"></i></button>
+        <input type="text" placeholder="Search Google or type a URL" class="input input-bordered w-full max-w-xs searchBar" id="searchBar" style="outline:none;" />
+        <i data-lucide="search" class="search" style="width:15px;"></i>
+        <button class="btn btn-sm btn-ghost btn-circle" onclick="eruda()"><i data-lucide="code"></i></button>
+    </div>
+        <iframe src="loading.html" id="loader" title="Loading.."></iframe>
+        <iframe src="" id="siteurl" title="tab1" class="first"></iframe>
+
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script src="baremux/bare.cjs"></script>
+        <script src="epoxy/index.js"></script>
+        <script src="/uv/uv.bundle.js"></script>
+        <script src="/uv/uv.config.js"></script>
+        <script src="/assets/js/loader.js"></script>
+        <script>startInterval();</script>
+    </body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="/assets/css/index.css">
+  <title>Modal</title>
+</head>
+<body>
+  <div class="content">
+    <ul class="menu menu-horizontal bg-base-200 rounded-box" style="margin-top: 10px;">
+      <li><a><i data-lucide="star"></i></a></li>
+      <li><a onclick="go('history.html')"><i data-lucide="history"></i></a></li>
+      <li><a><i data-lucide="github"></i></a></li>
+      <li><a onclick="settings.showModal()"><i data-lucide="settings"></i></a></li>
+    </ul>
+  </div>
+  <h1 class="title" style="margin-top: 120px;">Modal</h1>
+  <div class="content">
+    <form method="POST" id="uform" autocomplete="off">
+      <input type="text" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;Search or URL" id="search"
+        class="input input-bordered w-full max-w-xs search" style="outline:none;" />
+    </form>
+    <i data-lucide="search" id="searchIcon"></i>
+  </div>
+  <div class="footer">
+    <p class="text-xl" style="font-size:12px;padding:8px;">© Doge Network 2024</p>
+  </div>
+  <dialog id="settings" class="modal">
+    <div class="modal-box w-11/12 max-w-5xl">
+      <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:25px;text-align:center;">Settings</h1>
+      <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:19px;">Select Theme</h1>
+
+      <div class="form-control">
+        <label class="label cursor-pointer gap-4">
+          <span class="label-text">Midnight</span>
+          <input type="radio" name="theme-radios" class="radio theme-controller" value="sunset" />
+        </label>
+      </div>
+      <div class="form-control">
+        <label class="label cursor-pointer gap-4">
+          <span class="label-text">Nocturnal</span>
+          <input type="radio" name="theme-radios" class="radio theme-controller" value="coffee" />
+        </label>
+      </div>
+      <div class="form-control">
+        <label class="label cursor-pointer gap-4">
+          <span class="label-text">Daylight</span>
+          <input type="radio" name="theme-radios" class="radio theme-controller" value="retro" />
+        </label>
+      </div>
+      <div class="form-control">
+        <label class="label cursor-pointer gap-4">
+          <span class="label-text">Valentine</span>
+          <input type="radio" name="theme-radios" class="radio theme-controller" value="valentine" />
+        </label>
+      </div>
+      <div class="form-control">
+        <label class="label cursor-pointer gap-4">
+          <span class="label-text">Sky</span>
+          <input type="radio" name="theme-radios" class="radio theme-controller" value="nord" />
+        </label>
+      </div>
+
+
+      <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:19px;">Tab Cloak</h1>
+
+      <div class="modal-action">
+        <form method="dialog">
+          <button class="btn" onclick="window.reload()">Save</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="/assets/js/home.js"></script>
+  <script src="baremux/bare.cjs"></script>
+  <script src="epoxy/index.js"></script>
+  <script src="/uv/uv.bundle.js"></script>
+  <script src="/uv/uv.config.js"></script>
+  <script src="/assets/js/index.js"></script>
+</body>
+</html>

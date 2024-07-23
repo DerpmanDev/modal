@@ -1,0 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+
+.title {
+  font-family: "Outfit";
+  font-size: 40px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+}
+
+.search {
+  width: 317px;
+  text-align: center;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  margin-top: 30px;
+  box-shadow: 3px 4px 3px rgba(18, 18, 18, 0.338);
+  transition: 0.3s;
+}
+
+.search:focus {
+  text-align: left;
+}
+
+.search:focus::placeholder {
+  color: transparent;
+}
+
+#searchIcon {
+  position: absolute;
+  width: 15px;
+  filter: invert(30%);
+  transition: 0.2s;
+}
+
+.centered {
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.footer {
+  text-decoration: none;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
