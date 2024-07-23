@@ -1,7 +1,7 @@
 {
   "name": "modal",
   "version": "1.0.0",
-  "description": "Deployment of Modal",
+  "description": "web proxy",
   "type": "module",
   "engines": {
     "npm": ">=7.0.0",
