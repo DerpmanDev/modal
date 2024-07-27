@@ -1,5 +1,4 @@
-const savedTheme = localStorage.getItem("selectedTheme");
-
+var savedTheme = localStorage.getItem("selectedTheme");
 
 function applyTheme(theme) {
     document.documentElement.setAttribute("data-theme", theme);
@@ -16,6 +15,7 @@ function applyTheme(theme) {
     applyTheme(savedTheme);
     document.querySelector('.theme-controller[value="' + savedTheme + '"]',).checked = true;
   } else {
+    applyTheme('sunset');
     document.querySelector('.theme-controller[value="' + "sunset" + '"]',).checked = true;
   }
   

@@ -1,3 +1,15 @@
+window.onload = function() {
+    checkCloak();
+    displayHistory();
+
+    let goParam = getQueryParam('go');
+    if (goParam) {
+        localStorage.setItem("encodedUrl", __uv$config.encodeUrl(goParam));
+        location.href = '/loader.html';
+    }
+};
+
+
 function getQueryParam(param) {
     let urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
@@ -29,7 +41,7 @@ function displayHistory() {
         message.style.minHeight = '200px';
 
         messageText.innerText = 'Browse the web to see history here!';
-        messageText.style.fontSize = '21px';
+        messageText.style.fontSize = '19px';
         messageText.style.textAlign = 'center';
         messageText.style.margin = 'auto';
         historyDiv.appendChild(message);
@@ -97,13 +109,3 @@ function displayHistory() {
     // Append the <ul> element to the historyDiv
     historyDiv.appendChild(ul);
 }
-
-window.onload = function() {
-    displayHistory();
-
-    let goParam = getQueryParam('go');
-    if (goParam) {
-        localStorage.setItem("encodedUrl", __uv$config.encodeUrl(goParam));
-        location.href = '/loader.html';
-    }
-};

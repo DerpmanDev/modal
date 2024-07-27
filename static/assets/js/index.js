@@ -1,21 +1,23 @@
 const form = document.querySelector("form");
 const input = document.querySelector("input");
+const stockSW = "/sw.js";
 const allowedHostnames = ["localhost", "127.0.0.1"];
 
 async function registerSW() {
   if (!navigator.serviceWorker) {
     if (
       location.protocol !== "https:" &&
-      !allowedHostnames.includes(location.hostname)
+      !swAllowedHostnames.includes(location.hostname)
     )
       throw new Error("Service workers cannot be registered without https.");
+
     throw new Error("Your browser doesn't support service workers.");
   }
 
-  await navigator.serviceWorker.register("./sw.js");
+  await navigator.serviceWorker.register(stockSW);
 
   let wispUrl = (location.protocol === "https:" ? "wss" : "ws") + "://" + location.host + "/wisp/";
-  await BareMux.SetTransport("EpxMod.EpoxyClient", { wisp: wispUrl });
+    await BareMux.SetTransport("EpxMod.EpoxyClient", { wisp: wispUrl });
 }
 
 form.addEventListener("submit", async (event) => {
@@ -30,6 +32,7 @@ form.addEventListener("submit", async (event) => {
   if (!isUrl(url)) url = "https://www.google.com/search?q=" + url;
   else if (!(url.startsWith("https://") || url.startsWith("http://")))
     url = "http://" + url;
+  addHistory(url);
 
   localStorage.setItem("encodedUrl", __uv$config.encodeUrl(url));
   location.href = "/loader.html";
@@ -42,4 +45,11 @@ function isUrl(val = "") {
   )
     return true;
   return false;
+}
+
+function addHistory(input) {
+  let history = localStorage.getItem('history');
+  let historyArray = history ? JSON.parse(history) : [];
+  historyArray.push(input);
+  localStorage.setItem('history', JSON.stringify(historyArray));
 }

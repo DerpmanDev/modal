@@ -4,15 +4,16 @@
         <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="/assets/css/index.css">
         <link rel="stylesheet" href="/assets/css/ag.css">
+        <link rel="icon" href="/assets/img/favicon.ico">
     </head>
     <body>
         <div class="content">
-            <ul class="menu menu-horizontal bg-base-200 rounded-box" style="margin-top: 10px;">
-                <li><a onclick="go('games.html')"><i data-lucide="gamepad-2"></i></a></li>
-                <li><a><i data-lucide="layout-grid"></i></a></li>
-                <li><a><i data-lucide="github"></i></a></li>
-                <li><a onclick="settings.showModal()"><i data-lucide="settings"></i></a></li>
-              </ul>
+          <ul class="menu menu-horizontal bg-base-200 rounded-box" style="margin-top: 10px;">
+            <li><a class="tooltip tooltip-bottom" data-tip="Bookmarks"><i data-lucide="star"></i></a></li>
+            <li><a onclick="go('history.html')" class="tooltip tooltip-bottom" data-tip="History"><i data-lucide="history"></i></a></li>
+            <li><a class="tooltip tooltip-bottom" data-tip="GitHub"><i data-lucide="github"></i></a></li>
+            <li><a onclick="settings.showModal()" class="tooltip tooltip-bottom" data-tip="Settings"><i data-lucide="settings"></i></a></li>
+          </ul>
           </div>
           <div class="centered">
             <h1 class="title" style="margin-top: 200px;">Games</h1>

@@ -1,20 +1,18 @@
 import express from "express";
 import http from "node:http";
 import path from "node:path";
-import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
 import { epoxyPath } from "@mercuryworkshop/epoxy-transport";
 import { baremuxPath } from "@mercuryworkshop/bare-mux/node";
 import wisp from "wisp-server-node";
-
 
 const __dirname = path.resolve();
 const server = http.createServer();
 const app = express();
 const port = 5002;
 
-app.use("/uv/", express.static(uvPath));
 app.use("/epoxy", express.static(epoxyPath));
 app.use("/baremux/", express.static(baremuxPath));
+
 app.use(express.static(path.join(__dirname, "static")));
 
 app.get("/", (req, res) => {
@@ -27,7 +25,6 @@ app.use((req, res) => {
 });
 
 server.on("request", (req, res) => {
-  res.setHeader("Cross-Origin-Opener-Policy", "cross-origin");
   app(req, res);
 });
 
@@ -41,6 +38,15 @@ server.on("upgrade", (req, socket, head) => {
 server.on("listening", () => {
   console.log(`Modal is running on port ${port}\n\nhttp://localhost:${port}`);
 });
+
+process.on("SIGINT", close);
+process.on("SIGTERM", close);
+
+function close() {
+  console.log("Caught SIGTERM, shutting down");
+  server.close();
+  process.exit(0);
+}
 
 server.listen({
   port: port,

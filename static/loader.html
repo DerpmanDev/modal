@@ -3,34 +3,59 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="/assets/css/loader.css">
+    <link rel="stylesheet" href="/assets/css/tabs.css">
+    <link rel="icon" href="/assets/img/favicon.ico">
     <script>
-        window.onload = function () {
+        window.onload = function() {
           let encodedUrl = localStorage.getItem("encodedUrl");
           encodedUrl = "/service/" + encodedUrl;
           document.querySelector("#siteurl").src = encodedUrl;
+          var title = localStorage.getItem('cloakTitle');
+          var icon = localStorage.getItem('cloakIcon');
+          if (title) {
+            document.title = title;
+          } else {
+            document.title = 'Modal';
+          }
+          if (icon) {
+            document.querySelector("link[rel~='icon']").href = icon;
+          } else {
+            document.querySelector("link[rel~='icon']").href = '/assets/img/favicon.png';
+          }
+          addDefaultTabButton();
         }
     </script>
-    <script src="/assets/js/theme.js"></script>
-    <title>Loader | Modal</title>
 </head>
 <body>
-    <div id="urlBar">
+    <div id="urlBar" data-theme="radio">
         <button class="btn btn-sm btn-ghost btn-circle" onclick="back()"><i data-lucide="chevron-left"></i></button>
         <button class="btn btn-sm btn-ghost btn-circle" onclick="forward()"><i data-lucide="chevron-right"></i></button>
         <button class="btn btn-sm btn-ghost btn-circle" onclick="reload()"><i data-lucide="rotate-cw" style="width:19px;"></i></button>
         <input type="text" placeholder="Search Google or type a URL" class="input input-bordered w-full max-w-xs searchBar" id="searchBar" style="outline:none;" />
         <i data-lucide="search" class="search" style="width:15px;"></i>
         <button class="btn btn-sm btn-ghost btn-circle" onclick="eruda()"><i data-lucide="code"></i></button>
+        <button class="btn btn-sm btn-ghost btn-circle" onclick="toggleSidebar()"><i data-lucide="layers"></i></button>
     </div>
-        <iframe src="loading.html" id="loader" title="Loading.."></iframe>
+    <div id="sidebar">
+        <button class="btn btn-sm btn-ghost btn-circle" onclick="createIframe()" style="position:absolute;margin-top:-45px;left:9px;"><i data-lucide="plus"></i></button>
+        <button class="btn btn-sm btn-ghost btn-circle" onclick="toggleSidebar()" style="position:absolute;margin-top:-45px;right:9px;"><i data-lucide="x"></i></button>
+        <div id="tabList" class="tab-buttons"></div>
+    </div>
+    <div class="iframe-container" id="iframe-container">
+        <iframe src="loading.html" id="loader" title="Loading.." style="display:block"></iframe>
         <iframe src="" id="siteurl" title="tab1" class="first"></iframe>
-
-        <script src="https://unpkg.com/lucide@latest"></script>
-        <script src="baremux/bare.cjs"></script>
-        <script src="epoxy/index.js"></script>
-        <script src="/uv/uv.bundle.js"></script>
-        <script src="/uv/uv.config.js"></script>
-        <script src="/assets/js/loader.js"></script>
-        <script>startInterval();</script>
-    </body>
+        <input type="radio" name="theme-radios" class="radio theme-controller" value="sunset" style="opacity:0;width:1px;">
+    </div>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="baremux/bare.cjs"></script>
+    <script src="epoxy/index.js"></script>
+    <script src="/uv/uv.bundle.js"></script>
+    <script src="/uv/uv.config.js"></script>
+    <script src="/assets/js/theme.js"></script>
+    <script src="/assets/js/loader.js"></script>
+    <script src="/assets/js/tabs.js"></script>
+    <script>
+        startInterval();
+    </script>
+</body>
 </html>

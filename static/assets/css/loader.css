@@ -34,7 +34,6 @@ button {
 }
 
 iframe {
-  display: block;
   border: none;
   height: calc(100vh - 3.2em);
   width: 100vw;
@@ -43,4 +42,16 @@ iframe {
   left: 0;
   right: 0;
   transition: all 0.2s ease-out;
+}
+
+.iframe-container {
+  margin-top: 10px;
+}
+
+.iframe-container iframe:not(#siteurl) {
+  display: none;
+}
+
+#siteurl {
+  display: block;
 }

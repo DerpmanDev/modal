@@ -3,15 +3,33 @@
 <head>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="/assets/css/index.css">
-  <title>Modal</title>
+  <link rel="icon" href="/assets/img/favicon.ico">
+  <script>
+    window.onload = function() {
+      function getQueryParam(param) {
+        let urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+      }
+      let goParam = getQueryParam('go');
+      if (goParam) {
+        let url = goParam;
+      if (!isUrl(url)) url = "https://www.google.com/search?q=" + url;
+      else if (!(url.startsWith("https://") || url.startsWith("http://")))
+      url = "http://" + url;
+      localStorage.setItem("encodedUrl", __uv$config.encodeUrl(url));
+        registerSW();
+        location.href = '/loader.html';
+      }
+    };
+  </script>
 </head>
 <body>
   <div class="content">
     <ul class="menu menu-horizontal bg-base-200 rounded-box" style="margin-top: 10px;">
-      <li><a><i data-lucide="star"></i></a></li>
-      <li><a onclick="go('history.html')"><i data-lucide="history"></i></a></li>
-      <li><a><i data-lucide="github"></i></a></li>
-      <li><a onclick="settings.showModal()"><i data-lucide="settings"></i></a></li>
+      <li><a class="tooltip tooltip-bottom" data-tip="Bookmarks"><i data-lucide="star"></i></a></li>
+      <li><a onclick="go('history.html')" class="tooltip tooltip-bottom" data-tip="History"><i data-lucide="history"></i></a></li>
+      <li><a onclick="go('http://github.com/DerpmanDev/modal')" class="tooltip tooltip-bottom" data-tip="GitHub"><i data-lucide="github"></i></a></li>
+      <li><a onclick="settings.showModal()" class="tooltip tooltip-bottom" data-tip="Settings"><i data-lucide="settings"></i></a></li>
     </ul>
   </div>
   <h1 class="title" style="margin-top: 120px;">Modal</h1>
@@ -50,28 +68,24 @@
       </div>
       <div class="form-control">
         <label class="label cursor-pointer gap-4">
-          <span class="label-text">Valentine</span>
-          <input type="radio" name="theme-radios" class="radio theme-controller" value="valentine" />
-        </label>
-      </div>
-      <div class="form-control">
-        <label class="label cursor-pointer gap-4">
           <span class="label-text">Sky</span>
           <input type="radio" name="theme-radios" class="radio theme-controller" value="nord" />
         </label>
       </div>
 
+      <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:19px;margin-top:5px;padding-bottom:10px;">Tab Cloak</h1>
 
-      <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:19px;">Tab Cloak</h1>
+      <input type="text" placeholder="Classroom" class="input input-bordered input-sm w-full max-w-xs" id="cloakTitle" style="outline:none;text-align:center;width:175px;" />
+      <input type="text" placeholder="example.com/favicon.ico" class="input input-bordered input-sm w-full max-w-xs" id="cloakIcon" style="outline:none;" />
+      <button class="btn btn-sm" onclick="resetCloak()">Defaults</button>
 
       <div class="modal-action">
         <form method="dialog">
-          <button class="btn" onclick="window.reload()">Save</button>
+          <button class="btn" id='saveBtn'>Save</button>
         </form>
       </div>
     </div>
   </dialog>
-
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="/assets/js/home.js"></script>
   <script src="baremux/bare.cjs"></script>
@@ -79,5 +93,6 @@
   <script src="/uv/uv.bundle.js"></script>
   <script src="/uv/uv.config.js"></script>
   <script src="/assets/js/index.js"></script>
+  <script src="/assets/js/settings.js"></script>
 </body>
 </html>
