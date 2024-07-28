@@ -3,10 +3,12 @@ import http from "node:http";
 import path from "node:path";
 import { epoxyPath } from "@mercuryworkshop/epoxy-transport";
 import { baremuxPath } from "@mercuryworkshop/bare-mux/node";
+import { createBareServer } from '@tomphttp/bare-server-node';
 import wisp from "wisp-server-node";
 
 const __dirname = path.resolve();
 const server = http.createServer();
+const bareServer = createBareServer('/bare/');
 const app = express();
 const port = 5002;
 
@@ -25,15 +27,23 @@ app.use((req, res) => {
 });
 
 server.on("request", (req, res) => {
-  app(req, res);
+  if (bareServer.shouldRoute(req)) {
+    bareServer.routeRequest(req, res);
+  } else {
+    app(req, res);
+  }
 });
 
 server.on("upgrade", (req, socket, head) => {
-  if (req.url.endsWith("/wisp/"))
+  if (req.url.endsWith("/wisp/")) {
     wisp.routeRequest(req, socket, head);
-  else
+  } else if (bareServer.shouldRoute(req)) {
+    bareServer.routeUpgrade(req, socket, head);
+  } else {
     socket.end();
+  }
 });
+
 
 server.on("listening", () => {
   console.log(`Modal is running on port ${port}\n\nhttp://localhost:${port}`);

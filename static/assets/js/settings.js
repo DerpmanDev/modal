@@ -1,5 +1,24 @@
 var save = document.getElementById('saveBtn');
 
+const proxy = localStorage.getItem('proxyType');
+
+let checkBox;
+
+if (!proxyType || proxyType === 'uv') {
+  checkBox = 'uv';
+} else if (proxyType === 'dyn') {
+  checkBox = 'dyn';
+} else if (proxyType === 'uv2') {
+  checkBox = 'uv2';
+}
+
+if (checkBox) {
+  const element = document.getElementById(checkBox);
+  if (element) {
+    element.setAttribute('checked', 'checked');
+  }
+}
+
 save.addEventListener('click', function() {
     var cloakTitle = document.getElementById('cloakTitle');
     var cloakIcon = document.getElementById('cloakIcon');
@@ -65,4 +84,8 @@ function resetCloak() {
 
     document.title = 'Modal';
     document.querySelector("link[rel~='icon']").href = '/assets/img/favicon.png';
+}
+
+function setProxy(type) {
+  localStorage.setItem('proxyType', type);
 }

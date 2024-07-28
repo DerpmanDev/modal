@@ -79,6 +79,22 @@
       <input type="text" placeholder="example.com/favicon.ico" class="input input-bordered input-sm w-full max-w-xs" id="cloakIcon" style="outline:none;" />
       <button class="btn btn-sm" onclick="resetCloak()">Defaults</button>
 
+      <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:19px;margin-top:5px;padding-bottom:10px;">Proxy</h1>
+      <div class="form-control">
+        <label class="label cursor-pointer">
+          <span class="label-text">Ultraviolet</span>
+          <input type="radio" name="radio-10" class="radio checked:bg-red-500" id="uv" onclick="setProxy('uv')" />
+        </label>
+      </div>
+      <div class="form-control">
+        <label class="label cursor-pointer">
+          <span class="label-text">Dynamic&nbsp;&nbsp;<div class="badge badge-accent badge-outline badge-sm">Beta</div></span>
+          <input type="radio" name="radio-10" class="radio checked:bg-blue-500" id="dyn" onclick="setProxy('dyn')" />
+        </label>
+      </div>
+
+
+
       <div class="modal-action">
         <form method="dialog">
           <button class="btn" id='saveBtn'>Save</button>
