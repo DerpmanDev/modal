@@ -5,23 +5,13 @@
     <link rel="stylesheet" href="/assets/css/loader.css">
     <link rel="stylesheet" href="/assets/css/tabs.css">
     <link rel="icon" href="/assets/img/favicon.ico">
+    <script src="/assets/js/cloak.js"></script>
     <script>
         window.onload = function() {
           let encodedUrl = localStorage.getItem("encodedUrl");
-          encodedUrl = "/service/" + encodedUrl;
+          var uvPrefix = localStorage.getItem("uvPrefix");
+          encodedUrl = uvPrefix + encodedUrl;
           document.querySelector("#siteurl").src = encodedUrl;
-          var title = localStorage.getItem('cloakTitle');
-          var icon = localStorage.getItem('cloakIcon');
-          if (title) {
-            document.title = title;
-          } else {
-            document.title = 'Modal';
-          }
-          if (icon) {
-            document.querySelector("link[rel~='icon']").href = icon;
-          } else {
-            document.querySelector("link[rel~='icon']").href = '/assets/img/favicon.png';
-          }
           addDefaultTabButton();
         }
     </script>
@@ -47,6 +37,8 @@
         <input type="radio" name="theme-radios" class="radio theme-controller" value="sunset" style="opacity:0;width:1px;">
     </div>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="baremux/bare.cjs"></script>
+    <script src="epoxy/index.js"></script>
     <script src="/uv/uv.bundle.js"></script>
     <script src="/uv/uv.config.js"></script>
     <script src="/assets/js/theme.js"></script>

@@ -1,15 +1,16 @@
 var save = document.getElementById('saveBtn');
 
+
 const proxy = localStorage.getItem('proxyType');
 
 let checkBox;
 
-if (!proxyType || proxyType === 'uv') {
+if (!proxy || proxy === 'uv') {
   checkBox = 'uv';
-} else if (proxyType === 'dyn') {
+} else if (proxy === 'dyn') {
   checkBox = 'dyn';
-} else if (proxyType === 'uv2') {
-  checkBox = 'uv2';
+} else if (proxy === 'uvold') {
+  checkBox = 'uvold';
 }
 
 if (checkBox) {
@@ -19,9 +20,16 @@ if (checkBox) {
   }
 }
 
+if (localStorage.getItem('cloakTitle')) {
+  document.getElementById('cloakTitle').value = localStorage.getItem('cloakTitle');
+}
+if (localStorage.getItem('cloakIcon')) {
+  document.getElementById('cloakIcon').value = localStorage.getItem('cloakIcon');
+}
+
 save.addEventListener('click', function() {
-    var cloakTitle = document.getElementById('cloakTitle');
-    var cloakIcon = document.getElementById('cloakIcon');
+  var cloakTitle = document.getElementById('cloakTitle');
+  var cloakIcon = document.getElementById('cloakIcon');
 
     if (cloakTitle.value.trim() === '' && cloakIcon.value.trim() === '') {
       console.log('Using default site icon & title');
@@ -83,9 +91,31 @@ function resetCloak() {
     localStorage.removeItem('cloakIcon');
 
     document.title = 'Modal';
-    document.querySelector("link[rel~='icon']").href = '/assets/img/favicon.png';
+    document.querySelector("link[rel~='icon']").href = '/assets/img/favicon.ico';
+
+    document.getElementById('cloakTitle').value = 'Modal';
+    document.getElementById('cloakIcon').value = location.href + 'assets/img/favicon.ico';
 }
 
 function setProxy(type) {
   localStorage.setItem('proxyType', type);
 }
+
+const toggle = document.getElementById('toggleBlanker');
+
+const blanker = localStorage.getItem('blanker');
+
+if (blanker === 'on') {
+  toggle.checked = true;
+} else {
+  toggle.checked = false;
+}
+
+toggle.addEventListener('change', () => {
+  if (toggle.checked) {
+    localStorage.setItem('blanker', 'on');
+  } else {
+    localStorage.setItem('blanker', 'off');
+    toggle.ariaChecked = 'false';
+  }
+});

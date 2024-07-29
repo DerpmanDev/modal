@@ -4,7 +4,6 @@ const stockSW = "/sw.js";
 const allowedHostnames = ["localhost", "127.0.0.1"];
 var proxyType = localStorage.getItem('proxyType');
 
-if (proxyType === 'uv') {
 async function registerSW() {
   if (!navigator.serviceWorker) {
     if (
@@ -22,21 +21,30 @@ async function registerSW() {
     await BareMux.SetTransport("EpxMod.EpoxyClient", { wisp: wispUrl });
 }
 
+registerSW();
+
+window.navigator.serviceWorker.register("/dysw.js", {
+  scope: "/search/",
+});
+
+window.navigator.serviceWorker.register("/oldsw.js", {
+  scope: "/service/",
+});
+
+
+if (!proxyType || proxyType === 'uv') {
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
-  try {
-    await registerSW();
-  } catch (err) {
-    throw new Error(err)
-  }
   let url = input.value.trim();
   if (!isUrl(url)) url = "https://www.google.com/search?q=" + url;
   else if (!(url.startsWith("https://") || url.startsWith("http://"))) url = "http://" + url;
   addHistory(url);
   localStorage.setItem("encodedUrl", __uv$config.encodeUrl(url));
+  localStorage.setItem('uvPrefix', '/s/');
   location.href = "/loader.html";
 });
 }
+
 else if (proxyType === 'dyn') {
   console.log('Proxy Type: Dynamic\n\nUsing Bare server');
   form.addEventListener("submit", async (event) => {
@@ -54,6 +62,20 @@ else if (proxyType === 'dyn') {
     addHistory(url);
     localStorage.setItem("encodedUrl", __uv$config.encodeUrl(url));
     location.href = '/search/route?url=' + url;
+  });
+}
+
+else if (proxyType === 'uvold') {
+  console.log('Proxy Type: Ultraviolet V1\n\nUsing Bare server');
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    let url = input.value.trim();
+    if (!isUrl(url)) url = "https://www.google.com/search?q=" + url;
+    else if (!(url.startsWith("https://") || url.startsWith("http://"))) url = "http://" + url;
+    addHistory(url);
+    localStorage.setItem("encodedUrl", __uv$config.encodeUrl(url));
+    localStorage.setItem('uvPrefix', '/service/');
+    location.href = '/loader.html';
   });
 }
 

@@ -4,6 +4,7 @@
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="/assets/css/index.css">
   <link rel="icon" href="/assets/img/favicon.ico">
+  <script src="/assets/js/cloak.js"></script>
   <script>
     window.onload = function() {
       function getQueryParam(param) {
@@ -44,10 +45,11 @@
     <p class="text-xl" style="font-size:12px;padding:8px;">© Doge Network 2024</p>
   </div>
   <dialog id="settings" class="modal">
-    <div class="modal-box w-11/12 max-w-5xl">
+    <div class="modal-box">
       <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:25px;text-align:center;">Settings</h1>
-      <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:19px;">Select Theme</h1>
-
+      <div class="tooltip tooltip-right" data-tip="Customize Modal">
+        <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:19px;">Select Theme</h1>
+      </div>
       <div class="form-control">
         <label class="label cursor-pointer gap-4">
           <span class="label-text">Midnight</span>
@@ -72,35 +74,62 @@
           <input type="radio" name="theme-radios" class="radio theme-controller" value="nord" />
         </label>
       </div>
+      <div class="tooltip tooltip-right" data-tip="Change tab title and/or icon" style="margin-top:8px">
+        <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:19px;padding-bottom:10px;">Tab Cloak</h1>
+      </div>
+      <br>
+      <input type="text" placeholder="Classroom" class="input input-bordered input-sm w-full max-w-xs" id="cloakTitle" style="outline:none;text-align:center;width:155px;border-radius:8px" />
+      <input type="text" placeholder="example.com/favicon.ico" class="input input-bordered input-sm w-full max-w-xs" id="cloakIcon" style="outline:none;border-radius:8px" />
+      <button class="btn btn-sm" style="border-radius:8px" onclick="resetCloak()">Defaults</button>
 
-      <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:19px;margin-top:5px;padding-bottom:10px;">Tab Cloak</h1>
-
-      <input type="text" placeholder="Classroom" class="input input-bordered input-sm w-full max-w-xs" id="cloakTitle" style="outline:none;text-align:center;width:175px;" />
-      <input type="text" placeholder="example.com/favicon.ico" class="input input-bordered input-sm w-full max-w-xs" id="cloakIcon" style="outline:none;" />
-      <button class="btn btn-sm" onclick="resetCloak()">Defaults</button>
-
-      <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:19px;margin-top:5px;padding-bottom:10px;">Proxy</h1>
+      <div class="tooltip tooltip-right" data-tip="Opens tab in about:blank" style="margin-top:16px">
+        <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:18px;padding-bottom:10px;">About:Blank</h1>
+      </div>
       <div class="form-control">
         <label class="label cursor-pointer">
-          <span class="label-text">Ultraviolet</span>
+          <span class="label-text">Toggle Blanker</span>
+          <input type="checkbox" class="toggle toggle-sm" id="toggleBlanker" onclick="toggleBlanker()" />
+        </label>
+      </div>
+
+      <div class="tooltip tooltip-right" data-tip="Change proxy backend" style="margin-top:10px">
+        <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:19px;padding-bottom:7px;">Proxy</h1>
+      </div>
+        <div class="form-control">
+        <label class="label cursor-pointer">
+          <span class="label-text">Ultraviolet&nbsp;&nbsp;<div class="badge badge-default badge-outline badge-sm">Default</div></span>
           <input type="radio" name="radio-10" class="radio checked:bg-red-500" id="uv" onclick="setProxy('uv')" />
         </label>
       </div>
       <div class="form-control">
         <label class="label cursor-pointer">
-          <span class="label-text">Dynamic&nbsp;&nbsp;<div class="badge badge-accent badge-outline badge-sm">Beta</div></span>
+          <span class="label-text">Ultraviolet V1&nbsp;&nbsp;<div class="badge badge-primary badge-outline badge-sm">Bare</div></span>
+          <input type="radio" name="radio-10" class="radio checked:bg-blue-500" id="uvold" onclick="setProxy('uvold')" />
+        </label>
+      </div>
+      <div class="form-control">
+        <label class="label cursor-pointer">
+          <span class="label-text">Dynamic&nbsp;&nbsp;<div class="badge badge-primary badge-outline badge-sm">Bare</div>&nbsp;<div class="badge badge-accent badge-outline badge-sm">Beta</div></span>
           <input type="radio" name="radio-10" class="radio checked:bg-blue-500" id="dyn" onclick="setProxy('dyn')" />
         </label>
       </div>
 
-
-
-      <div class="modal-action">
-        <form method="dialog">
-          <button class="btn" id='saveBtn'>Save</button>
-        </form>
+      <div class="tooltip tooltip-right" data-tip="Select a search engine" style="margin-top:10px">
+        <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:18px;margin-top:5px;padding-bottom:10px;">Search Engine</h1>
       </div>
+      <div class="form-control">
+        <select class="select select-bordered select-sm w-full max-w-xs">
+          <option disabled selected>Default</option>
+          <option>Bing</option>
+          <option>Google</option>
+          <option>DuckDuckGo</option>
+        </select>
+      </div>
+
     </div>
+    <form method="dialog" class="modal-backdrop">
+      <button id="saveBtn">close</button>
+    </form>
   </dialog>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="/assets/js/home.js"></script>

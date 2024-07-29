@@ -99,27 +99,32 @@ async function registerSW() {
     await BareMux.SetTransport("EpxMod.EpoxyClient", { wisp: wispUrl });
 }
 
-setTimeout(registerSW, 30000);
-// Prevents websocket disconnection
+var proxyType = localStorage.getItem('proxyType');
 
-function forward() {
-  document.getElementById('siteurl').contentWindow.history.go(1);
+if (!proxyType || proxyType === 'uv') {
+  setTimeout(registerSW, 30000);
+  // Prevents websocket disconnection
 }
 
-function back() {
-  document.getElementById('siteurl').contentWindow.history.go(-1);
+  function forward() {
+    frame.contentWindow.history.go(1);
+  }
 
-  setTimeout(() => {
-    const currentSrc = frame.contentWindow.location.pathname;
-    if (currentSrc === '/loading.html') {
-      forward();
-    }
-  }, 100);
-}
+  function back() {
+    frame.contentWindow.history.go(-1);
 
-function reload() {
-  document.getElementById('siteurl').contentWindow.location.reload();
-}
+    setTimeout(() => {
+      const currentSrc = frame.contentWindow.location.pathname;
+      if (currentSrc === '/loading.html') {
+        forward();
+      }
+    }, 500);
+  }
+
+  function reload() {
+    frame.contentWindow.location.reload();
+  }
+
 
 function eruda() {
   var siteIframe = document.getElementById('siteurl');
@@ -148,10 +153,23 @@ function eruda() {
   }
 }
 
-
 function decode(url) {
-  const decodedPart = url.split("/service/")[1];
-  return decodedPart ? Ultraviolet.codec.xor.decode(decodedPart.replace(/\?/g, '=')) : null;
+  if (url === 'about:blank') {
+      return ''
+  }
+  
+  var uvPrefix = localStorage.getItem("uvPrefix");
+
+  const uvIndex = url.indexOf(uvPrefix);
+  const encodedPart = uvIndex !== -1 ? url.substring(uvIndex + uvPrefix.length) : url;
+  
+  try {
+      const decodedPart = Ultraviolet.codec.xor.decode(encodedPart);
+      return decodedPart;
+  } catch (error) {
+      console.error('Error decoding the URL part:', error);
+      return null;
+  }
 }
 
 function updateSearch() {

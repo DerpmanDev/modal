@@ -1,10 +1,6 @@
 const searchIcon = document.getElementById("searchIcon");
 const searchBar = document.querySelector(".input");
 
-window.onload = function () {
-  checkCloak();
-}
-
 try {
   searchIcon.style.marginTop = "43px";
   searchIcon.style.marginRight = "109px";
@@ -23,22 +19,6 @@ try {
 }
 
 lucide.createIcons();
-
-function checkCloak() {
-  var title = localStorage.getItem('cloakTitle');
-  var icon = localStorage.getItem('cloakIcon');
-  
-  if (title) {
-    document.title = title;
-  } else {
-    document.title = 'Modal';
-  }
-  if (icon) {
-    document.querySelector("link[rel~='icon']").href = icon;
-  } else {
-    document.querySelector("link[rel~='icon']").href = '/assets/img/favicon.png';
-  }
-}
 
 function applyTheme(theme) {
   document.documentElement.setAttribute("data-theme", theme);
