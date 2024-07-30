@@ -18,12 +18,12 @@ searchBar.addEventListener("keydown", function () {
     }
 }});
 
-/*function checkForError() {
+function checkForError() {
   if (document.getElementById('siteurl')) {
     try {
       var iframe = document.getElementById('siteurl');
       var iframeContent = iframe.contentDocument || iframe.contentWindow.document;
-      if (iframeContent.body.innerText.includes('Ultraviolet v3.1.1')) {
+      if (iframeContent.body.innerText.includes('Error processing your request')) {
         var link = iframeContent.createElement('link');
         link.rel = 'stylesheet';
         link.href = 'https://cdn.jsdelivr.net/npm/daisyui@1.14.0/dist/full.css';
@@ -76,7 +76,7 @@ searchBar.addEventListener("keydown", function () {
   setTimeout(checkForError, 900);
 }
 
-checkForError();*/
+checkForError();
 
 setTimeout(function () {
   var searchBarValue = document.getElementById('searchBar').value;
