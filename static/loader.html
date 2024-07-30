@@ -11,6 +11,10 @@
           let encodedUrl = localStorage.getItem("encodedUrl");
           var uvPrefix = localStorage.getItem("uvPrefix");
           encodedUrl = uvPrefix + encodedUrl;
+          registerSW();
+          window.navigator.serviceWorker.register("/oldsw.js", {
+          scope: "/service/",
+        });
           document.querySelector("#siteurl").src = encodedUrl;
           addDefaultTabButton();
         }
@@ -24,12 +28,18 @@
         <input type="text" placeholder="Search Google or type a URL" class="input input-bordered w-full max-w-xs searchBar" id="searchBar" style="outline:none;" />
         <i data-lucide="search" class="search" style="width:15px;"></i>
         <button class="btn btn-sm btn-ghost btn-circle" onclick="eruda()"><i data-lucide="code"></i></button>
-        <button class="btn btn-sm btn-ghost btn-circle" onclick="toggleSidebar()"><i data-lucide="layers"></i></button>
+        <button class="btn btn-sm btn-ghost btn-circle" onclick="toggleSidebar()"><i data-lucide="folder" style="width:21px;"></i></button>
+        <button class="btn btn-sm btn-ghost btn-circle" onclick="toggleMenu()"><i data-lucide="menu" style="width:24px;"></i></button>
+
     </div>
     <div id="sidebar">
         <button class="btn btn-sm btn-ghost btn-circle" onclick="createIframe()" style="position:absolute;margin-top:-45px;left:9px;"><i data-lucide="plus"></i></button>
         <button class="btn btn-sm btn-ghost btn-circle" onclick="toggleSidebar()" style="position:absolute;margin-top:-45px;right:9px;"><i data-lucide="x"></i></button>
         <div id="tabList" class="tab-buttons"></div>
+    </div>
+    <div id="menu">
+        <button class="btn btn-sm menuBtn" onclick="toggleFs()"><i data-lucide="maximize" style="width:17px;margin-left:-10px"></i>Fullscreen</button>
+        <button class="btn btn-sm menuBtn" style="margin-top: 2px" onclick="home()"><i data-lucide="home" style="width:17px;margin-left:-10px"></i>Return Home</button>
     </div>
     <div class="iframe-container" id="iframe-container">
         <iframe src="loading.html" id="loader" title="Loading.." style="display:block"></iframe>

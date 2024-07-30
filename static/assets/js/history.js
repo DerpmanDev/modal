@@ -1,19 +1,8 @@
 window.onload = function() {
     checkCloak();
-    displayHistory();
-
-    let goParam = getQueryParam('go');
-    if (goParam) {
-        localStorage.setItem("encodedUrl", __uv$config.encodeUrl(goParam));
-        location.href = '/loader.html';
-    }
+    displayHistory(); // Display history on page load
+    handleSearchInput(); // Set up search bar functionality
 };
-
-
-function getQueryParam(param) {
-    let urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(param);
-}
 
 function loadAll() {
     let history = localStorage.getItem('history');
@@ -25,10 +14,10 @@ function deleteHistoryItem(item) {
     let historyArray = loadAll();
     historyArray = historyArray.filter(historyItem => historyItem !== item);
     localStorage.setItem('history', JSON.stringify(historyArray));
-    displayHistory(); // refresh history
+    displayHistory(); // Refresh the display
 }
 
-function displayHistory() {
+function displayHistory(searchQuery = '') {
     let historyArray = loadAll();
     let historyDiv = document.getElementById('history');
     historyDiv.innerHTML = '';
@@ -49,6 +38,11 @@ function displayHistory() {
         return;
     }
 
+    // Filter historyArray based on search query
+    if (searchQuery) {
+        historyArray = historyArray.filter(item => item.toLowerCase().includes(searchQuery.toLowerCase()));
+    }
+
     let currentUrl = window.location.href.split('?')[0];
 
     // Reverse the historyArray to display the latest saved items first
@@ -61,10 +55,10 @@ function displayHistory() {
 
     historyArray.forEach(item => {
         let li = document.createElement('li');
-        li.style.display = 'flex'; // Use flexbox for horizontal alignment
-        li.style.alignItems = 'center'; // Center the items vertically
-        li.style.justifyContent = 'space-between'; // Space between link and button
-        li.style.padding = '0.5em'; // Optional: add some padding for better spacing
+        li.style.display = 'flex'; 
+        li.style.alignItems = 'center'; 
+        li.style.justifyContent = 'space-between'; 
+        li.style.padding = '0.5em'; 
 
         let linkContainer = document.createElement('div');
         linkContainer.style.display = 'flex';
@@ -72,18 +66,17 @@ function displayHistory() {
         linkContainer.style.width = '670px';
 
         let link = document.createElement('a');
-        link.href = `${currentUrl}?go=${item}`;
+        link.href = `/?go=${item}`;
         link.target = '_blank';
         link.innerText = item;
         link.style.display = 'inline-block';
-        link.style.textDecoration = 'none'; // Optional: remove underline
-        link.style.color = 'inherit'; // Optional: inherit text color
-        link.style.whiteSpace = 'nowrap'; // Ensure the text does not wrap
-        link.style.overflow = 'hidden'; // Hide the overflow text
-        link.style.textOverflow = 'ellipsis'; // Add "..." at the end of overflow text
+        link.style.textDecoration = 'none'; 
+        link.style.color = 'inherit'; 
+        link.style.whiteSpace = 'nowrap'; 
+        link.style.overflow = 'hidden'; 
+        link.style.textOverflow = 'ellipsis'; 
         link.style.flexGrow = '1';
 
-        // Create the delete button
         let deleteButton = document.createElement('button');
         deleteButton.className = 'btn btn-sm btn-ghost btn-circle';
         deleteButton.style.width = '30px';
@@ -95,8 +88,8 @@ function displayHistory() {
             </svg>
         `;
         deleteButton.onclick = function(event) {
-            event.preventDefault(); // Prevent the link from being followed
-            event.stopPropagation(); // Stop the click event from propagating
+            event.preventDefault(); 
+            event.stopPropagation(); 
             deleteHistoryItem(item);
         };
 
@@ -106,6 +99,13 @@ function displayHistory() {
         ul.appendChild(li);
     });
 
-    // Append the <ul> element to the historyDiv
     historyDiv.appendChild(ul);
+}
+
+function handleSearchInput() {
+    let searchBar = document.getElementById('search-bar');
+    searchBar.addEventListener('input', function() {
+        let searchQuery = searchBar.value;
+        displayHistory(searchQuery);
+    });
 }

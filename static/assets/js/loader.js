@@ -11,14 +11,14 @@ searchBar.addEventListener("keydown", function () {
     var inputUrl = searchBar.value.trim();
     if (/^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(inputUrl)) {
         addHistory(inputUrl);
-        document.getElementById('siteurl').src = '/service/' + Ultraviolet.codec.xor.encode(inputUrl);
+        document.getElementById('siteurl').src = localStorage.getItem('uvPrefix') + Ultraviolet.codec.xor.encode(inputUrl);
     } else {
         addHistory(inputUrl.includes('.') ? 'https://' + inputUrl : 'https://www.google.com/search?q=' + encodeURIComponent(inputUrl));
-        document.getElementById('siteurl').src = '/service/' + Ultraviolet.codec.xor.encode(inputUrl.includes('.') ? 'https://' + inputUrl : 'https://www.google.com/search?q=' + encodeURIComponent(inputUrl));
+        document.getElementById('siteurl').src = localStorage.getItem('uvPrefix') + Ultraviolet.codec.xor.encode(inputUrl.includes('.') ? 'https://' + inputUrl : 'https://www.google.com/search?q=' + encodeURIComponent(inputUrl));
     }
 }});
 
-function checkForError() {
+/*function checkForError() {
   if (document.getElementById('siteurl')) {
     try {
       var iframe = document.getElementById('siteurl');
@@ -76,7 +76,7 @@ function checkForError() {
   setTimeout(checkForError, 900);
 }
 
-checkForError();
+checkForError();*/
 
 setTimeout(function() {
   localStorage.setItem('encodedUrl', Ultraviolet.codec.xor.encode(document.getElementById('searchBar').value));
@@ -154,8 +154,10 @@ function eruda() {
 }
 
 function decode(url) {
-  if (url === 'about:blank') {
+  if (url === 'about:blank' || url === 'welcome.html') {
       return ''
+  } else if (url === 'welcome.html' || url === 'https://mp.derpman.lol/welcome.html') {
+    return ''
   }
   
   var uvPrefix = localStorage.getItem("uvPrefix");
@@ -196,6 +198,32 @@ function startInterval() {
   startLoop();
 }
 
+function onFrameClick() {
+  if (document.getElementById('siteurl').contentWindow) {
+      document.getElementById('siteurl').contentWindow.addEventListener('click', frameClicked);
+      document.getElementById('siteurl').contentWindow.addEventListener('touchend', frameClicked);
+  }
+}
+
+function frameClicked() {
+  document.getElementById("sidebar").style.display = 'none';
+  document.getElementById("menu").style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  onFrameClick();
+  setInterval(onFrameClick, 1000);
+});
+
+function toggleMenu() {
+  const menu = document.getElementById("menu");
+  menu.style.display = menu.style.display === "block" ? "none" : "block";
+
+  if (menu.style.display === 'block') {
+    document.getElementById('sidebar').style.display = 'none';
+  }
+}
+
 function addHistory(input) {
   let history = localStorage.getItem('history');
   let historyArray = history ? JSON.parse(history) : [];
@@ -205,4 +233,18 @@ function addHistory(input) {
 
 function updateHistory() {
   addHistory(document.getElementById('searchBar').value);
+}
+
+function home() {
+  location.href = '/';
+}
+
+function toggleFs() {
+  if (!document.fullscreenElement) {
+      document.getElementById('siteurl').requestFullscreen().catch(err => {
+          console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+      });
+  } else {
+      document.exitFullscreen();
+  }
 }

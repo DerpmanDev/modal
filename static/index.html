@@ -14,12 +14,25 @@
       let goParam = getQueryParam('go');
       if (goParam) {
         let url = goParam;
-      if (!isUrl(url)) url = "https://www.google.com/search?q=" + url;
-      else if (!(url.startsWith("https://") || url.startsWith("http://")))
-      url = "http://" + url;
-      localStorage.setItem("encodedUrl", __uv$config.encodeUrl(url));
+        if (!isUrl(url)) url = "https://www.google.com/search?q=" + url;
+        else if (!(url.startsWith("https://") || url.startsWith("http://")))
+          url = "http://" + url;
+        localStorage.setItem("encodedUrl", __uv$config.encodeUrl(url));
+        if(localStorage.getItem('proxyType') === 'uv' || localStorage.getItem('proxyType') === 'uvold' || !localStorage.getItem('proxyType')) {
         registerSW();
+        window.navigator.serviceWorker.register("/oldsw.js", {
+          scope: "/service/",
+        });
         location.href = '/loader.html';
+        } else if (localStorage.getItem('proxyType') === 'dyn') {
+          window.navigator.serviceWorker.register("/dysw.js", {
+          scope: "/search/",
+        });
+          location.href = '/search/route?url=' + url;
+        }
+        if (!localStorage.getItem('proxyType')) {
+          localStorage.getItem("uvPrefix", '/s/');
+        }
       }
     };
   </script>
@@ -27,7 +40,7 @@
 <body>
   <div class="content">
     <ul class="menu menu-horizontal bg-base-200 rounded-box" style="margin-top: 10px;">
-      <li><a class="tooltip tooltip-bottom" data-tip="Bookmarks"><i data-lucide="star"></i></a></li>
+      <li><a onclick="bookmarkList.showModal()" class="tooltip tooltip-bottom" data-tip="Bookmarks"><i data-lucide="star"></i></a></li>
       <li><a onclick="go('history.html')" class="tooltip tooltip-bottom" data-tip="History"><i data-lucide="history"></i></a></li>
       <li><a onclick="go('http://github.com/DerpmanDev/modal')" class="tooltip tooltip-bottom" data-tip="GitHub"><i data-lucide="github"></i></a></li>
       <li><a onclick="settings.showModal()" class="tooltip tooltip-bottom" data-tip="Settings"><i data-lucide="settings"></i></a></li>
@@ -41,9 +54,54 @@
     </form>
     <i data-lucide="search" id="searchIcon"></i>
   </div>
-  <div class="footer">
+  <div class="footer" style="position:fixed;">
     <p class="text-xl" style="font-size:12px;padding:8px;">© Doge Network 2024</p>
   </div>
+
+  <dialog id="bookmarkList" class="modal">
+    <div class="modal-box" style="justify-content: center;">
+      <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:25px;text-align:center;">Bookmarks</h1>
+      <input type="text" placeholder="Search Bookmarks" id="searchBookmarks" class="input input-bordered input-sm w-max" style="width:55%;padding-left:30px;outline:none;margin:auto;margin-top:10px;margin-left:80px" />
+      <button class="btn btn-sm absolute right-2 top-2" onclick="addBookmarkModal.showModal();">Add</button>
+      <i data-lucide="search" style="margin-top:-28px;margin-left:90px;width:15px;"></i>
+      <div id="bookmarks" style="margin-top:30px;"></div>
+      <dialog id="addBookmarkModal" class="modal">
+        <div class="modal-box">
+          <h1 class="text-2xl font-bold mb-4" style="font-size: 19px;font-weight:600;">Add Bookmark</h1>
+          <form id="bookmarkForm" class="space-y-4">
+            <div class="form-control">
+              <label class="label" for="name">
+                <span class="label-text">Bookmark Name</span>
+              </label>
+              <input type="text" id="name" class="input input-bordered w-full" style="outline:none;" placeholder="Name">
+            </div>
+            <div class="form-control">
+              <label class="label" for="url">
+                <span class="label-text">Bookmark URL</span>
+              </label>
+              <input type="url" id="url" class="input input-bordered w-full" style="outline:none;" placeholder="URL" required>
+            </div>
+            <div class="form-control">
+              <label class="label" for="icon">
+                <span class="label-text">Icon URL (optional)</span>
+              </label>
+              <input type="url" id="icon" class="input input-bordered w-full" style="outline:none;" placeholder="Icon URL">
+            </div>
+          </form>
+          <form method="dialog">
+            <button class="btn w-full" style="margin-top: 10px;" onclick="createBookmark()">Add Bookmark</button>
+          </form>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
+
   <dialog id="settings" class="modal">
     <div class="modal-box">
       <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:25px;text-align:center;">Settings</h1>
@@ -93,12 +151,12 @@
       </div>
 
       <div class="tooltip tooltip-right" data-tip="Change proxy backend" style="margin-top:10px">
-        <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:19px;padding-bottom:7px;">Proxy</h1>
+        <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:18px;margin-top:5px;padding-bottom:10px;">Proxy</h1>
       </div>
-        <div class="form-control">
+      <div class="form-control">
         <label class="label cursor-pointer">
-          <span class="label-text">Ultraviolet&nbsp;&nbsp;<div class="badge badge-default badge-outline badge-sm">Default</div></span>
-          <input type="radio" name="radio-10" class="radio checked:bg-red-500" id="uv" onclick="setProxy('uv')" />
+          <span class="label-text">Ultraviolet V3&nbsp;&nbsp;<div class="badge badge-default badge-outline badge-sm">Default</div></span>
+          <input type="radio" name="radio-10" class="radio checked:bg-blue-500" id="uv" onclick="setProxy('uv')" />
         </label>
       </div>
       <div class="form-control">
@@ -118,8 +176,8 @@
         <h1 class="text-lg font-bold" style="font-family:Outfit;font-size:18px;margin-top:5px;padding-bottom:10px;">Search Engine</h1>
       </div>
       <div class="form-control">
-        <select class="select select-bordered select-sm w-full max-w-xs">
-          <option disabled selected>Default</option>
+        <select class="select select-bordered select-sm w-full max-w-xs" id="dropdown">
+          <option disabled>Default</option>
           <option>Bing</option>
           <option>Google</option>
           <option>DuckDuckGo</option>
@@ -133,6 +191,7 @@
   </dialog>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="/assets/js/home.js"></script>
+  <script src="/assets/js/bookmarks.js"></script>
   <script src="baremux/bare.cjs"></script>
   <script src="epoxy/index.js"></script>
   <script src="/uv/uv.bundle.js"></script>

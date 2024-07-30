@@ -55,3 +55,28 @@ iframe {
 #siteurl {
   display: block;
 }
+
+#menu {
+  display: none;
+  position: fixed;
+  margin-top: 40px;
+  right: 0;
+  height: 115px;
+  border-radius: 8px;
+  width: 250px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), /* bottom */
+              0 -2px 4px rgba(0, 0, 0, 0.2), /* top*/
+              2px 0 4px rgba(0, 0, 0, 0.2), /* right*/
+              -2px 0 4px rgba(0, 0, 0, 0.2); /* left */
+  overflow-x: hidden;
+  padding-top: 60px;
+  z-index: 1000;
+}
+
+.menuBtn {
+  width: 90%;
+  position:absolute;
+  margin-top:-40px;
+  border-radius:8px;
+  margin-left:10px;
+}

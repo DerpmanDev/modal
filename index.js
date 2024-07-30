@@ -4,6 +4,7 @@ import path from "node:path";
 import { epoxyPath } from "@mercuryworkshop/epoxy-transport";
 import { baremuxPath } from "@mercuryworkshop/bare-mux/node";
 import { createBareServer } from '@tomphttp/bare-server-node';
+import { uvPath } from '@titaniumnetwork-dev/ultraviolet';
 import wisp from "wisp-server-node";
 
 const __dirname = path.resolve();
@@ -12,6 +13,7 @@ const bareServer = createBareServer('/bare/');
 const app = express();
 const port = 5002;
 
+app.use("/uv-v1/", express.static(uvPath));
 app.use("/epoxy", express.static(epoxyPath));
 app.use("/baremux/", express.static(baremuxPath));
 

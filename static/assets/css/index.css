@@ -51,3 +51,25 @@
   right: 0;
   bottom: 0;
 }
+
+.bookmark {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.bookmark img {
+  width: 32px;
+  height: 32px;
+  margin-right: 10px;
+}
+.bookmark:hover {
+  background-color: #f0f0f0;
+}
+.delete-button {
+  margin-left: auto;
+  cursor: pointer;
+}

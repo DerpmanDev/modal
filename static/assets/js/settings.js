@@ -119,3 +119,10 @@ toggle.addEventListener('change', () => {
     toggle.ariaChecked = 'false';
   }
 });
+
+function saveDropdownValue() {
+  const dropdown = document.getElementById('dropdown');
+  const selectedValue = dropdown.value;
+  localStorage.setItem('dropdownValue', selectedValue);
+}
+

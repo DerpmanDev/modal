@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="/assets/css/index.css">
+  <link rel="icon" href="/assets/img/favicon.ico">
+  <script src="/assets/js/cloak.js"></script>
+  <script>
+    window.onload = function() {
+      function getQueryParam(param) {
+        let urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+      }
+      let goParam = getQueryParam('go');
+      if (goParam) {
+        let url = goParam;
+        if (!isUrl(url)) url = "https://www.google.com/search?q=" + url;
+        else if (!(url.startsWith("https://") || url.startsWith("http://")))
+          url = "http://" + url;
+        localStorage.setItem("encodedUrl", __uv$config.encodeUrl(url));
+        if(localStorage.getItem('proxyType') === 'uv' || localStorage.getItem('proxyType') === 'uvold') {
+        registerSW();
+        window.navigator.serviceWorker.register("/oldsw.js", {
+          scope: "/service/",
+        });
+        location.href = '/loader.html';
+        } else if (localStorage.getItem('proxyType') === 'dyn') {
+          window.navigator.serviceWorker.register("/dysw.js", {
+          scope: "/search/",
+        });
+          location.href = '/search/route?url=' + url;
+        }
+      }
+    };
+  </script>
+</head>
+<body>
+  <h1 class="title" style="margin-top: 120px;">Modal</h1>
+  <h1 class="title" style="margin-top: 10px;font-size: 20px;">Type a URL to begin browsing.</h1>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="/assets/js/home.js"></script>
+  <script src="/assets/js/bookmarks.js"></script>
+  <script src="baremux/bare.cjs"></script>
+  <script src="epoxy/index.js"></script>
+  <script src="/uv/uv.bundle.js"></script>
+  <script src="/uv/uv.config.js"></script>
+  <script src="/assets/js/index.js"></script>
+  <script src="/assets/js/settings.js"></script>
+</body>
+</html>

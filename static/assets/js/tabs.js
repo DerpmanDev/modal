@@ -1,6 +1,10 @@
 function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
     sidebar.style.display = sidebar.style.display === "block" ? "none" : "block";
+
+    if (sidebar.style.display === 'block') {
+        document.getElementById('menu').style.display = 'none';
+      }
 }
 
 let iframeCount = 1;
@@ -8,10 +12,13 @@ let iframeCount = 1;
 document.addEventListener('DOMContentLoaded', () => {
     const searchBar = document.getElementById('searchBar');
     const sidebar = document.getElementById('sidebar');
+    const menu = document.getElementById('menu');
 
     const searchBarColor = window.getComputedStyle(searchBar).backgroundColor;
-    // Sets the sidebar the same color as the url bar
+    // Sets the sidebar AND mennu the same color as the url bar
     sidebar.style.backgroundColor = searchBarColor;
+    menu.style.backgroundColor = searchBarColor;
+
 });
 
 function createIframe() {
@@ -22,7 +29,7 @@ function createIframe() {
 
     iframeCount++;
     const iframe = document.createElement("iframe");
-    iframe.src = "about:blank";
+    iframe.src = "welcome.html";
     iframe.id = "siteurl";
     iframe.title = `tab${iframeCount}`;
 
