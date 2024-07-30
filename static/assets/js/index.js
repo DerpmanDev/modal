@@ -18,7 +18,7 @@ async function registerSW() {
   await navigator.serviceWorker.register(stockSW);
 
   let wispUrl = (location.protocol === "https:" ? "wss" : "ws") + "://" + location.host + "/wisp/";
-    await BareMux.SetTransport("EpxMod.EpoxyClient", { wisp: wispUrl });
+    await BareMux.SetTransport("EpxMod.EpoxyClient", { wisp: localStorage.getItem('wisp') });
 }
 
 registerSW();
@@ -36,7 +36,7 @@ if (!proxyType || proxyType === 'uv') {
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   let url = input.value.trim();
-  if (!isUrl(url)) url = "https://www.google.com/search?q=" + url;
+  if (!isUrl(url)) url = "https://" + localStorage.getItem('searchEngine') + ".com/search?q=" + url;
   else if (!(url.startsWith("https://") || url.startsWith("http://"))) url = "http://" + url;
   addHistory(url);
   localStorage.setItem("encodedUrl", __uv$config.encodeUrl(url));

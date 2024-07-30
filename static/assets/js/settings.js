@@ -2,6 +2,8 @@ var save = document.getElementById('saveBtn');
 
 
 const proxy = localStorage.getItem('proxyType');
+const searchEngine = localStorage.getItem('searchEngine');
+const wispUrl = localStorage.getItem('wisp');
 
 let checkBox;
 
@@ -11,6 +13,22 @@ if (!proxy || proxy === 'uv') {
   checkBox = 'dyn';
 } else if (proxy === 'uvold') {
   checkBox = 'uvold';
+}
+
+if (!searchEngine) {
+  localStorage.setItem('searchEngine', 'google');
+}
+
+if (!wispUrl) {
+  localStorage.setItem('wisp', 'wss://mp.derpman.lol/wisp/');
+  document.getElementById('wisp').value = 'wss://mp.derpman.lol/wisp/';
+} else {
+  document.getElementById('wisp').value = wispUrl;
+
+}
+
+if (document.getElementById('wisp').value === '') {
+  document.getElementById('wisp').value = 'wss://mp.derpman.lol/wisp/';
 }
 
 if (checkBox) {
@@ -49,6 +67,13 @@ save.addEventListener('click', function() {
         }
       }
     }
+    
+    saveSearchValue();
+
+    if (document.getElementById('wisp').value) {
+      localStorage.setItem('wisp', document.getElementById('wisp').value);
+    }
+
     location.reload(true);
   });
 
@@ -120,9 +145,14 @@ toggle.addEventListener('change', () => {
   }
 });
 
-function saveDropdownValue() {
+function saveSearchValue() {
   const dropdown = document.getElementById('dropdown');
   const selectedValue = dropdown.value;
-  localStorage.setItem('dropdownValue', selectedValue);
+  localStorage.setItem('searchEngine', selectedValue);
 }
 
+const savedValue = localStorage.getItem('searchEngine');
+if (savedValue) {
+  const dropdown = document.getElementById('dropdown');
+  dropdown.value = savedValue;
+}

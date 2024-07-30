@@ -59,7 +59,7 @@
   padding: 10px;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 .bookmark img {
   width: 32px;
@@ -67,7 +67,7 @@
   margin-right: 10px;
 }
 .bookmark:hover {
-  background-color: #f0f0f0;
+  background-color: #35353552;
 }
 .delete-button {
   margin-left: auto;

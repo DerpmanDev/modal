@@ -27,7 +27,7 @@ function displayHistory(searchQuery = '') {
         let messageText = document.createElement('p');
         message.className = 'menu bg-base-200 rounded-box w-700';
         message.style.width = '700px';
-        message.style.minHeight = '200px';
+        message.style.minHeight = '180px';
 
         messageText.innerText = 'Browse the web to see history here!';
         messageText.style.fontSize = '19px';

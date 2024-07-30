@@ -78,9 +78,14 @@ searchBar.addEventListener("keydown", function () {
 
 checkForError();*/
 
-setTimeout(function() {
-  localStorage.setItem('encodedUrl', Ultraviolet.codec.xor.encode(document.getElementById('searchBar').value));
-}, 60000);
+setTimeout(function () {
+  var searchBarValue = document.getElementById('searchBar').value;
+
+  if (searchBarValue.startsWith('https://')) {
+    localStorage.setItem('encodedUrl', Ultraviolet.codec.xor.encode(searchBarValue));
+  } else {
+    console.log('Blank URL, not saving');
+  }}, 60000);
 // Save URL every 60 seconds
 
 async function registerSW() {
@@ -96,7 +101,7 @@ async function registerSW() {
   await navigator.serviceWorker.register(stockSW);
 
   let wispUrl = (location.protocol === "https:" ? "wss" : "ws") + "://" + location.host + "/wisp/";
-    await BareMux.SetTransport("EpxMod.EpoxyClient", { wisp: wispUrl });
+    await BareMux.SetTransport("EpxMod.EpoxyClient", { wisp: localStorage.getItem('wisp') });
 }
 
 var proxyType = localStorage.getItem('proxyType');

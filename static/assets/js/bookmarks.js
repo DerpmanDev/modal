@@ -7,7 +7,7 @@ function createBookmark() {
     const urlInput = document.getElementById('url');
     const url = urlInput.value;
     const iconInput = document.getElementById('icon');
-    let icon = iconInput.value || "/assets/js/bookmark.png";
+    let icon = iconInput.value ||`${location.href}assets/img/bookmark.png`;
   
     if (!isValidUrl(url)) {
       event.preventDefault();
