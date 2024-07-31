@@ -21,10 +21,6 @@ or run the `start.sh` file
 <img src="https://github.com/user-attachments/assets/fa076b1e-d3b3-44ac-8356-ac5c5fc40ec9" width="800">
 <img src="https://github.com/user-attachments/assets/ccdbb63c-687e-4eb5-bd7f-3e612563084e" width="800">
 
-
-
-
-
 **Contributors:**
 - Derpman
 
