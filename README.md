@@ -1,8 +1,17 @@
 # Modal
 A web proxy made for TitaniumNetwork's 2024 Proxathon Contest
 
+## Installation
 
-**Screenshots:**
+Run these commands in your terminal to install the required packages:
+
+```bash
+pnpm install
+pnpm start
+```
+or run the `start.sh` file
+
+## Screenshots
 
 <img src="https://github.com/user-attachments/assets/2936f20a-cd8a-48e7-9700-37169334c622" width="800">
 <img src="https://github.com/user-attachments/assets/4f336394-ba03-4ab5-986b-ee498b9979be" width="800">
@@ -18,7 +27,5 @@ A web proxy made for TitaniumNetwork's 2024 Proxathon Contest
 
 **Contributors:**
 - Derpman
-
-
 
 All files were uploaded from Derpman's server to GitHub.
