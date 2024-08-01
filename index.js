@@ -31,19 +31,14 @@ app.use((req, res) => {
 server.on("request", (req, res) => {
   if (bareServer.shouldRoute(req)) {
     bareServer.routeRequest(req, res);
-  } else {
-    app(req, res);
-  }
+  } else app(req, res);
 });
-
 server.on("upgrade", (req, socket, head) => {
-  if (req.url.endsWith("/wisp/")) {
-    wisp.routeRequest(req, socket, head);
-  } else if (bareServer.shouldRoute(req)) {
+  if (bareServer.shouldRoute(req)) {
     bareServer.routeUpgrade(req, socket, head);
-  } else {
-    socket.end();
-  }
+  } else if (req.url.endsWith("/wisp/")) {
+    wisp.routeRequest(req, socket, head);
+  } else socket.end();
 });
 
 
